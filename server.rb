@@ -51,3 +51,9 @@ end
 delete '/body/?' do
   request.body()
 end
+
+# return requests http status code
+get %r{/([0-9]{3})} do
+  status_code = params['captures'].first.to_i
+  halt status_code, {'Content-Type' => 'text/plain'}, "returned #{status_code}"
+end
