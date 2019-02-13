@@ -1,9 +1,9 @@
-FROM gliderlabs/alpine:latest
+FROM ruby:alpine
 MAINTAINER Daniel Poßmann <daniel.possmann@boerse-go.de> 
 
-RUN apk add --update ruby ca-certificates && \
-    rm -rf /var/cache/apk/* && \
-    gem install -N sinatra
+RUN apk add --update ruby-json ca-certificates && \
+    gem install -N sinatra && \
+    rm -rf /var/cache/apk/*
 
 EXPOSE 4567
 ADD . /
