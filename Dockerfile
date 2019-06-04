@@ -1,5 +1,5 @@
 FROM ruby:alpine
-MAINTAINER Daniel Poßmann <daniel.possmann@boerse-go.de> 
+LABEL maintainer="Daniel Poßmann <daniel.possmann@boerse-go.de>"
 
 RUN apk add --update ruby-json ca-certificates && \
     gem install -N sinatra && \
