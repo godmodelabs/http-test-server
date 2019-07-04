@@ -27,6 +27,16 @@ delete '/?' do
   'DELETE'
 end
 
+# return version environment variable for testing
+get '/version?' do
+  env_name = 'VERSION'
+  if ENV.key?(env_name)
+    "#{env_name} - #{ENV[env_name]}"
+  else
+    "#{env_name} not set"
+  end
+end
+
 # return provided content type
 get '/contenttype/?' do
   request.env['CONTENT_TYPE']
