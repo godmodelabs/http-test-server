@@ -71,6 +71,11 @@ delete '/body/?' do
   request.body
 end
 
+# return provided body
+get '/vary/:header_list' do
+  halt 200, { 'Vary' => params['header_list'], 'Cache-Control' => 's-maxage=30' }, "Vary: #{params['header_list']} - Date: #{Time.now.rfc822}"
+end
+
 # return requests http status code
 get %r{/([0-9]{3})} do
   status_code = params['captures'].first.to_i
