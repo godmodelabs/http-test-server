@@ -73,7 +73,17 @@ end
 
 # return provided body
 get '/vary/:header_list' do
-  halt 200, { 'Vary' => params['header_list'], 'Cache-Control' => 's-maxage=30' }, "Vary: #{params['header_list']} - Date: #{Time.now.rfc822}"
+  header_names = params['header_list'].split(',').map(&:strip)
+  key_names = header_names.map { |header| [header, 'HTTP_' + header.upcase.tr('-', '_')] }
+  header_strings = []
+  key_names.each do |header_array|
+    header_strings << if request.env[header_array[1]]
+                        format('%<header>s: %<header_value>s', header: header_array[0], header_value: request.env[header_array[1]])
+                      else
+                        format('%<header>s: %<header_value>s', header: header_array[0], header_value: '<unavailable>')
+                      end
+  end
+  halt 200, { 'Vary' => params['header_list'], 'Cache-Control' => 's-maxage=30' }, "Vary: #{params['header_list']} - Date: #{Time.now.rfc822} - #{header_strings.join(' - ')}"
 end
 
 # return requests http status code
