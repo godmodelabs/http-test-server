@@ -8,5 +8,5 @@ RUN apk add --update ruby-json ca-certificates && \
 EXPOSE 4567
 ADD . /
 
-ENTRYPOINT ["ruby", "/server.rb"]
+ENTRYPOINT ["rackup"]
 CMD ["-o","0.0.0.0"]
