@@ -1,9 +1,9 @@
-FROM ruby:alpine
+FROM ruby:slim
 LABEL maintainer="IT-Operations <it-operations@boerse-go.de>"
 
-RUN apk add --update ruby-json ca-certificates && \
-    gem install -N sinatra && \
-    rm -rf /var/cache/apk/*
+RUN apt-get update -y && \
+    apt-get install -y ruby-sinatra ruby-json && \
+    apt-get clean && rm -r /var/lib/apt/lists/*
 
 EXPOSE 4567
 ADD . /
