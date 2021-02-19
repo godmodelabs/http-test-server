@@ -10,6 +10,10 @@ def disabled?(obj)
   false
 end
 
+configure do
+  set :start_time, Time.now
+end
+
 disable :logging if disabled?(ENV['LOGGING'])
 
 # simply accept calls
@@ -91,5 +95,22 @@ end
 # return requests http status code
 get %r{/([0-9]{3})} do
   status_code = params['captures'].first.to_i
+  halt status_code, { 'Content-Type' => 'text/plain' }, "returned #{status_code}"
+end
+
+# return requests http status code
+get %r{/(fail|warn)-after/([0-9]+)} do
+  mode = params['captures'].first
+  timeout = params['captures'][1].to_i
+  fail_time = Time.now - (settings.start_time + timeout)
+  status_code = 200
+  if fail_time.positive?
+    # timeout run out
+    status_code = if mode == 'warn'
+                    429
+                  else
+                    500
+                  end
+  end
   halt status_code, { 'Content-Type' => 'text/plain' }, "returned #{status_code}"
 end
