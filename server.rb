@@ -115,8 +115,8 @@ get %r{/(fail|warn)-after/([0-9]+)} do
   halt status_code, { 'Content-Type' => 'text/plain' }, "returned #{status_code}"
 end
 
-get %r{/sleep/([0-9]+)} do
-  sleep_time = params['captures'].first.to_i
+get %r{/sleep/([0-9.]+)} do
+  sleep_time = params['captures'].first.to_f
   sleep sleep_time
   sleep_time.to_s
 end
