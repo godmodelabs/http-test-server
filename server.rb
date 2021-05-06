@@ -116,5 +116,7 @@ get %r{/(fail|warn)-after/([0-9]+)} do
 end
 
 get %r{/sleep/([0-9]+)} do
-  sleep params['captures'].first.to_i
+  sleep_time = params['captures'].first.to_i
+  sleep sleep_time
+  sleep_time.to_s
 end
