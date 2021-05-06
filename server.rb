@@ -100,7 +100,7 @@ end
 
 # return requests http status code
 get %r{/(fail|warn)-after/([0-9]+)} do
-  mode = params['captures'].first
+  mode =  params['captures'].first
   timeout = params['captures'][1].to_i
   fail_time = Time.now - (settings.start_time + timeout)
   status_code = 200
@@ -113,4 +113,8 @@ get %r{/(fail|warn)-after/([0-9]+)} do
                   end
   end
   halt status_code, { 'Content-Type' => 'text/plain' }, "returned #{status_code}"
+end
+
+get %r{/sleep/([0-9]+)} do
+  sleep params['captures'].first.to_i
 end
